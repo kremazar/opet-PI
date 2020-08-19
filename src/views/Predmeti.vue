@@ -5,6 +5,7 @@
             <div class="card mt-3" style="width:100%;">
                 <div class="card-body">
                     <h3 class="card-title">Opis: </h3>
+                    
                     <p class="card-text">{{predmet.opis}}</p>
                 </div>
             </div>
@@ -30,17 +31,31 @@
             </div>
             <div class="card mt-3" style="width:100%;">
                 <div class="card-body">
-                    <h5 class="card-title">Ispit: </h5>
-                    <p class="card-text"> {{predmet.ispit}}</p>
+                    <router-link v-bind:to="'/ispit/'+ predmet.naziv ">Ispit</router-link>                   
                 </div>
-                <form >
+                
+         <!--        <form >
             <div class="form-group">
               <label for="link">URL riješenja:</label>
               <input v-model="ispit.link"  class="form-control"   placeholder="Riješenje" />
             </div>
             <button @click.prevent="dodaj"  class="btn btn-primary">Dodaj</button>
-          </form>
+          </form> -->
             </div>
+            <div >
+      <p>Upload an image to Firebase:</p>
+      <input type="file" @change="previewImage" accept="*" >
+    </div>
+    <div>
+      <p>Progress: {{uploadValue.toFixed()+"%"}}
+      <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
+    </div>
+    <div v-if="imageData!=null">
+        <img class="preview" :src="picture">
+        <br>
+      <button @click="onUpload">Upload</button>
+    </div>
+
         </div>
     </div>
 </template>
@@ -52,6 +67,10 @@ export default {
     data(){
         return{
             id:this.$route.params.id,
+            imageData: null,
+            picture: null,
+            sve:[],
+            uploadValue: 0,
             predmet:{},
             ispit:{
                 link:'',
@@ -59,7 +78,35 @@ export default {
         }
     },
     created(){
-        var db = firebase.firestore()
+        var storage = firebase.storage();
+
+        var storageRef = storage.ref(`${this.id}`);
+
+    console.log(this.sve[0])
+    // Now we get the references of these images
+    storageRef.listAll().then(function(result) {
+      console.log(result)
+      result.items.forEach(function(imageRef) {
+        imageRef.getDownloadURL().then(function(url) {
+        //console.log(url)
+        this.sve.push(url)
+      }).catch(function(error) {
+        // Handle any errors
+      });   
+      });
+    }).catch(function(error) {
+      // Handle any errors
+    });
+
+    function displayImage(imageRef) {
+      imageRef.getDownloadURL().then(function(url) {
+        // TODO: Display the image on the UI
+      }).catch(function(error) {
+        // Handle any errors
+      });
+    }
+
+
         this.$http.get('https://pi-projekt-f1460.firebaseio.com/Predmeti/' + this.id + '.json').then(function(data){
             return data.data
         }).then (data=>{
@@ -67,7 +114,8 @@ export default {
         })
       },
       methods:{
-        dodaj: function(){
+       
+        /* dodaj: function(){
             let id= firebase.auth().currentUser.email
             var db = firebase.firestore()
             var naziv=  this.predmet.naziv
@@ -86,7 +134,28 @@ export default {
               console.error("Error writing document: ", error);
             });
             this.$router.replace({name:"fax"})
-        }
+        } */
+        previewImage(event) {
+            this.uploadValue=0;
+            this.picture=null;
+            this.imageData = event.target.files[0];
+         },
+          onUpload(){
+      this.picture=null;
+      const storageRef=firebase.storage().ref(`${this.id}/${this.imageData.name}`).put(this.imageData);
+      storageRef.on(`state_changed`,snapshot=>{
+        this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+      }, error=>{console.log(error.message)},
+      ()=>{this.uploadValue=100;
+        storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+          this.picture =url;
+       
+        });
+      }
+      );
+         this.sve.push(this.picture)
+          console.log(this.sve[0])
+    }
     }
 }
 </script>

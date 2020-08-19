@@ -1,7 +1,7 @@
 <template>
     <div class="container">
       <div class="row">
-        <div v-for=" blog in blogs"   v-bind:key="blog.id" class="col-3">
+        <div v-for=" blog in fax"   v-bind:key="blog.id" class="col-3">
           <div  class="card m-1" style="width: 18rem; height:18rem;">
             <img class="card-img-top" src="http://www.teen385.com/frontend/images/uploads/082009/knjige.jpg" style="width:100%" alt="Card image cap">
             <div  class="card-body">
@@ -25,7 +25,7 @@ import "firebase/auth"
 export default {
   data(){
     return{
-      blogs:[],
+      fax:[],
       admin:firebase.auth().currentUser.email
     }
   },
@@ -38,7 +38,7 @@ export default {
           data[key].id=key
           Array.push(data[key])
           }
-         this.blogs=Array
+         this.fax=Array
         })
       }
 }
