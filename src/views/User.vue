@@ -1,37 +1,50 @@
 <template>
-    <div class="user">
-        <div class="container">
-            <h1>{{blog.FullName}}</h1>
-            <div class="card mt-3" style="width:100%;">
-                <div class="card-body">
-                    <h5 class="card-title">UserName: </h5>
-                    <p class="card-text"> {{blog.UserName}}</p>
-                </div>
-            </div>
-            <div class="card mt-3" style="width:100%;">
-                <div class="card-body">
-                    <h5 class="card-title">email: </h5>
-                    <p class="card-text"> {{blog.email}}</p>
-                </div>
-            </div>
-        </div>
+  <div class="user">
+    <h1>Korisnik {{user}}</h1>
+    <div>
+      <table v-for="url in korisnici" :key="url.id" class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Položeni predmeti</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{url.položeno}}</th>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <h1 v-if="korisnici.length==max">Položili ste sve predmete!!!!!</h1>
+    <h1
+      v-else-if="korisnici.length < max"
+    >Preostalo vam je položiti još {{max-korisnici.length}} predmeta</h1>
+  </div>
 </template>
 
 <script>
+import firebase from "firebase";
+import db from "firebase";
 export default {
-    data(){
-        return{
-            id:this.$route.params.id,
-            blog:{}
-        }
-    },
-    created(){
-        this.$http.get('https://pi-projekt-f1460.firebaseio.com/user/' + this.id + '.json').then(function(data){
-            return data.data
-        }).then (data=>{
-            this.blog=data
-        })
-      }
-}
+  data() {
+    return {
+      id: this.$route.params.id,
+      user: firebase.auth().currentUser.email,
+      korisnici: [],
+      max: 5,
+    };
+  },
+  created() {
+    var db = firebase.firestore();
+    console.log(this.predmet);
+    db.collection(this.user)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          this.korisnici.push(doc.data());
+          console.log(doc.data());
+        });
+      });
+  },
+};
 </script>
