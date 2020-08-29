@@ -61,6 +61,7 @@
 <script>
 import firebase from "firebase";
 import db from "firebase";
+import { Predmeti } from "@/services";
 export default {
   data() {
     return {
@@ -92,17 +93,9 @@ export default {
         });
       })
       .catch(function (error) {});
-
-    this.$http
-      .get(
-        "https://pi-projekt-f1460.firebaseio.com/Predmeti/" + this.id + ".json"
-      )
-      .then(function (data) {
-        return data.data;
-      })
-      .then((data) => {
-        this.predmet = data;
-      });
+    Predmeti.getAll(this.id).then((data) => {
+      this.predmet = data;
+    });
   },
   methods: {
     previewImage(event) {

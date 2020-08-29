@@ -30,6 +30,7 @@
 <script>
 import firebase from "firebase";
 import "firebase/auth";
+import { Novi } from "@/services";
 export default {
   data() {
     return {
@@ -43,25 +44,7 @@ export default {
   },
   methods: {
     dodaj: function () {
-      this.$http
-        .post(
-          "https://pi-projekt-f1460.firebaseio.com/Predmeti.json",
-          this.Predmet
-        )
-        .then(function (data) {
-          console.log(data);
-        });
-      /*
-             var db = firebase.firestore()
-       db.collection("Predmeti")
-            .add(this.Predmet)
-            .then(function() {
-              console.log("Document successfully written!");
-            })
-            .catch(function(error) {
-              console.error("Error writing document: ", error);
-            });
-       */
+      Novi.getAll(this.Predmet);
       this.$router.replace({ name: "fax" });
     },
   },
