@@ -44,8 +44,9 @@ export default {
   },
   methods: {
     dodaj: function () {
-      Novi.getAll(this.Predmet);
-      this.$router.replace({ name: "fax" });
+      Novi.getAll(this.Predmet).then(() => {
+        this.$router.replace({ name: "fax" });
+      });
     },
   },
 };

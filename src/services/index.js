@@ -1,4 +1,5 @@
 import axios from "axios";
+import firebase from "firebase";
 
 let Service = axios.create({
   baseURL: "https://pi-projekt-f1460.firebaseio.com",
@@ -25,4 +26,23 @@ let Novi = {
     return response;
   },
 };
-export { Service, Predmeti, SviPredmeti, Novi };
+let Storage = {
+  getAll(ref, sve) {
+    var storage = firebase.storage();
+    var storageRef = storage.ref(`${ref}`);
+    storageRef
+      .listAll()
+      .then((result) => {
+        result.items.forEach((imageRef) => {
+          imageRef
+            .getDownloadURL()
+            .then((url) => {
+              sve.push(url);
+            })
+            .catch(function(error) {});
+        });
+      })
+      .catch(function(error) {});
+  },
+};
+export { Service, Predmeti, SviPredmeti, Novi, Storage };

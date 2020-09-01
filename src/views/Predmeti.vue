@@ -61,7 +61,7 @@
 <script>
 import firebase from "firebase";
 import db from "firebase";
-import { Predmeti } from "@/services";
+import { Predmeti, Storage } from "@/services";
 export default {
   data() {
     return {
@@ -78,21 +78,7 @@ export default {
     };
   },
   created() {
-    var storage = firebase.storage();
-    var storageRef = storage.ref(`${this.id}`);
-    storageRef
-      .listAll()
-      .then((result) => {
-        result.items.forEach((imageRef) => {
-          imageRef
-            .getDownloadURL()
-            .then((url) => {
-              this.sve.push(url);
-            })
-            .catch(function (error) {});
-        });
-      })
-      .catch(function (error) {});
+    Storage.getAll(this.id, this.sve);
     Predmeti.getAll(this.id).then((data) => {
       this.predmet = data;
     });
