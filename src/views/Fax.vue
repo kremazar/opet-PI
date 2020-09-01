@@ -35,7 +35,10 @@ export default {
   },
   created() {
     SviPredmeti.getAll().then((data) => {
-      this.fax = data;
+      for (let key in data) {
+        data[key].id = key;
+        this.fax.push(data[key]);
+      }
     });
   },
 };
