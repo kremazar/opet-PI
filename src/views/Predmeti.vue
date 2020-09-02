@@ -72,9 +72,6 @@ export default {
       sve: [],
       uploadValue: 0,
       predmet: {},
-      ispit: {
-        link: "",
-      },
     };
   },
   created() {

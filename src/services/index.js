@@ -20,6 +20,12 @@ let SviPredmeti = {
     return data;
   },
 };
+let ObrisiPredmet = {
+  async getAll(id) {
+    let response = await Service.delete(`/Predmeti/${id}.json`);
+    return response;
+  },
+};
 let Novi = {
   async getAll(podaci) {
     let response = await Service.post("/Predmeti.json", podaci);
@@ -45,4 +51,4 @@ let Storage = {
       .catch(function(error) {});
   },
 };
-export { Service, Predmeti, SviPredmeti, Novi, Storage };
+export { Service, Predmeti, SviPredmeti, Novi, Storage, ObrisiPredmet };

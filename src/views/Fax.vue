@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div v-for=" blog in fax" v-bind:key="blog.id" class="col-3">
-        <div class="card m-1" style="width: 18rem; height:18rem;">
+        <div class="card m-1">
           <img
             class="card-img-top"
             src="http://www.teen385.com/frontend/images/uploads/082009/knjige.jpg"
@@ -12,6 +12,7 @@
           <div class="card-body">
             <h5 class="card-title">{{blog.naziv}}</h5>
             <router-link v-bind:to="'/predmeti/'+ blog.id">Pregledaj</router-link>
+            <button class="btn btn-danger float-right" @click="onDelete(blog.id)">X</button>
           </div>
         </div>
       </div>
@@ -25,13 +26,27 @@
 <script>
 import firebase from "firebase";
 import "firebase/auth";
-import { SviPredmeti } from "@/services";
+import { SviPredmeti, ObrisiPredmet } from "@/services";
 export default {
   data() {
     return {
       fax: [],
       admin: firebase.auth().currentUser.email,
     };
+  },
+  methods: {
+    deletePred(id) {
+      ObrisiPredmet.getAll(id)
+        .then(() => {
+          location.reload();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    onDelete(book) {
+      this.deletePred(book);
+    },
   },
   created() {
     SviPredmeti.getAll().then((data) => {
