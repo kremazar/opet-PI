@@ -8,7 +8,6 @@ import Fax from "../views/Fax.vue";
 import Predmeti from "../views/Predmeti.vue";
 import NoviPredmet from "../views/Novi_predmet.vue";
 import User from "../views/User.vue";
-import Admin from "../views/Admin.vue";
 import Ispit from "../views/Ispit.vue";
 
 Vue.use(VueRouter);
@@ -69,14 +68,6 @@ const router = new VueRouter({
       path: "/ispit/:predmet",
       name: "ispit",
       component: Ispit,
-      meta: {
-        requiresAuth: true,
-      },
-    },
-    {
-      path: "/admin",
-      name: "admin",
-      component: Admin,
       meta: {
         requiresAuth: true,
       },

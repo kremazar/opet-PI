@@ -10,7 +10,7 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row">{{url.položeno}}</th>
+            <th scope="row">{{url}}</th>
           </tr>
         </tbody>
       </table>
@@ -25,6 +25,7 @@
 <script>
 import firebase from "firebase";
 import db from "firebase";
+import { Polozeno } from "@/services";
 export default {
   data() {
     return {
@@ -35,16 +36,7 @@ export default {
     };
   },
   created() {
-    var db = firebase.firestore();
-    console.log(this.predmet);
-    db.collection(this.user)
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          this.korisnici.push(doc.data());
-          console.log(doc.data());
-        });
-      });
+    Polozeno.getAll(this.user, this.korisnici);
   },
 };
 </script>

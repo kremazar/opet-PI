@@ -34,9 +34,15 @@
           </div>
         </div>
       </div>
+
       <div class="card mt-3" style="width:100%;">
-        <div class="card-body">
-          <router-link v-bind:to="'/ispit/'+ predmet.naziv ">Ispit</router-link>
+        <h1 v-if="korisnici.includes(predmet.naziv)">
+          <p>Već ste položili ispit</p>
+        </h1>
+        <div v-else>
+          <div class="card-body">
+            <router-link v-bind:to="'/ispit/'+ predmet.naziv ">Ispit</router-link>
+          </div>
         </div>
       </div>
       <div v-if="admin=='niksa123@unipu.hr'">
@@ -61,7 +67,7 @@
 <script>
 import firebase from "firebase";
 import db from "firebase";
-import { Predmeti, Storage } from "@/services";
+import { Predmeti, Storage, Polozeno } from "@/services";
 export default {
   data() {
     return {
@@ -72,13 +78,16 @@ export default {
       sve: [],
       uploadValue: 0,
       predmet: {},
+      korisnici: [],
     };
   },
+
   created() {
     Storage.getAll(this.id, this.sve);
     Predmeti.getAll(this.id).then((data) => {
       this.predmet = data;
     });
+    Polozeno.getAll(this.admin, this.korisnici);
   },
   methods: {
     previewImage(event) {

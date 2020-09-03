@@ -51,4 +51,25 @@ let Storage = {
       .catch(function(error) {});
   },
 };
-export { Service, Predmeti, SviPredmeti, Novi, Storage, ObrisiPredmet };
+let Polozeno = {
+  getAll(user, korisnici) {
+    var db = firebase.firestore();
+    db.collection(user)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          korisnici.push(doc.data().položeno);
+          console.log(doc.data().položeno);
+        });
+      });
+  },
+};
+export {
+  Service,
+  Predmeti,
+  SviPredmeti,
+  Novi,
+  Storage,
+  ObrisiPredmet,
+  Polozeno,
+};
