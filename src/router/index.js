@@ -9,6 +9,7 @@ import Predmeti from "../views/Predmeti.vue";
 import NoviPredmet from "../views/Novi_predmet.vue";
 import User from "../views/User.vue";
 import Ispit from "../views/Ispit.vue";
+import DodajIspit from "../views/DodajIspit.vue";
 
 Vue.use(VueRouter);
 
@@ -68,6 +69,14 @@ const router = new VueRouter({
       path: "/ispit/:predmet",
       name: "ispit",
       component: Ispit,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/DodajIspit",
+      name: "DodajIspit",
+      component: DodajIspit,
       meta: {
         requiresAuth: true,
       },

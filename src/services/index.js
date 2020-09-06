@@ -32,6 +32,20 @@ let Novi = {
     return response;
   },
 };
+let Ispit = {
+  async getAll(podaci, kolegij) {
+    let response = await Service.post(`/Ispit/${kolegij}.json`, podaci);
+    console.log(response);
+    return response;
+  },
+};
+let SviIspiti = {
+  async getAll(kolegij) {
+    let response = await Service.get(`/Ispit/${kolegij}.json`);
+    let data = response.data;
+    return data;
+  },
+};
 let Storage = {
   getAll(ref, sve) {
     var storage = firebase.storage();
@@ -72,4 +86,6 @@ export {
   Storage,
   ObrisiPredmet,
   Polozeno,
+  Ispit,
+  SviIspiti,
 };

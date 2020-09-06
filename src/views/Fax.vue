@@ -18,7 +18,10 @@
       </div>
     </div>
     <div v-if="admin=='niksa123@unipu.hr'">
-      <router-link v-bind:to="'/novi_predmet'">Dodaj</router-link>
+      <router-link v-bind:to="'/novi_predmet'">Dodaj predmet</router-link>
+      <br />
+      <br />
+      <router-link v-bind:to="'/DodajIspit'">Dodaj Ispit</router-link>
     </div>
   </div>
 </template>

@@ -4,19 +4,19 @@
       <div class="col-sm-9">
         <form>
           <div class="form-group">
-            <label for="FullName">Naziv Predmeta:</label>
+            <label for="naziv">Naziv Predmeta:</label>
             <input v-model="Predmet.naziv" class="form-control" placeholder="Naziv predmeta" />
           </div>
           <div class="form-group">
-            <label for="userName">Opis:</label>
+            <label for="opis">Opis:</label>
             <input v-model="Predmet.opis" class="form-control" placeholder="Opis" />
           </div>
           <div class="form-group">
-            <label for="Email">Nositelji:</label>
+            <label for="nositelji">Nositelji:</label>
             <input v-model="Predmet.nositelji" class="form-control" placeholder="Nositelji" />
           </div>
           <div class="form-group">
-            <label for="password">Literatura:</label>
+            <label for="literatura">Literatura:</label>
             <input v-model="Predmet.literatura" class="form-control" placeholder="Literatura" />
           </div>
           <button @click.prevent="dodaj" class="btn btn-primary">Dodaj</button>
