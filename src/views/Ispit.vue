@@ -78,7 +78,6 @@ export default {
     },
   },
   created() {
-    console.log(this.questions);
     SviIspiti.getAll(this.predmet).then((data) => {
       for (let key in data) {
         data[key].id = key;

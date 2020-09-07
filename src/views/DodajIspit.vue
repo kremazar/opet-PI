@@ -2,6 +2,9 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9">
+        <form action>
+          <button @click.prevent="novopitanje">dodaj pitanje</button>
+        </form>
         <form>
           <div class="form-group">
             <select v-model="kolegij">
@@ -9,7 +12,7 @@
               <option v-for="predmet in fax" :key="predmet">{{predmet}}</option>
             </select>
           </div>
-          <div class="border p-5 mb-5" v-for="index in 5" :key="index">
+          <div class="border p-5 mb-5" v-for="index in broj" :key="index">
             <div class="form-group">
               <label for="Pitanje">Pitanje {{index}}:</label>
               <input v-model="ispit[index-1].text" class="form-control" />
@@ -39,6 +42,11 @@ import { Ispit, SviPredmeti } from "@/services";
 export default {
   data() {
     return {
+      pitanje: {
+        text: "",
+        responses: [{ text: "", correct: true }, { text: "" }],
+      },
+      broj: 5,
       fax: [],
       predmet: [],
       kolegij: "",
@@ -71,6 +79,10 @@ export default {
       Ispit.getAll(this.ispit, this.kolegij).then(() => {
         location.reload();
       });
+    },
+    novopitanje: function () {
+      this.ispit.push(this.pitanje);
+      this.broj += 1;
     },
   },
   created() {
